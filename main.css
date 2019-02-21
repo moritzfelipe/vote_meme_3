@@ -1,0 +1,44 @@
+body{
+  background-color:#311B58;
+  padding: 1em;
+}
+
+.btn{
+  background-color: #F7296E;
+  border-color: #F7296E;
+  color:white;
+  margin-top: 1em;
+}
+
+.card{
+  background-color: #F5F5F5;
+  margin-bottom: 1em;
+  padding-top: 0.5em;
+  border: 0.5em solid #F5F5F5;
+}
+
+.inputForm{
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+#message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    z-index: 1;
+}
+
+#loader {
+  margin: 1em;
+  color:#F7296E;
+}
+
+#title-div {
+  margin: 1em;
+}
+
+#memeBody {
+  margin-top: 2em;
+}
