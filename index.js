@@ -28,6 +28,8 @@
       return 0;
     }
 
+
+
     //Function to execute the vote call when a user votes with ae on a meme
     async function voteCall(index,inputAmount) {
       //Display the loader animation so the user knows that something is happening
@@ -64,8 +66,13 @@
 
       $("#loader").show();
       //First make a call to get to know how may memes have been created and need to be displayed
+
+
       const calledGet = await client.contractCallStatic(contractAddress, 'sophia-address', 'getMemesLength ', {args: '()'}).catch(e => console.error(e));
       console.log('calledGet', calledGet);
+
+      const testCall = await client.contractCallStatic(contractAddress, 'sophia-address', 'getMemesLength ', {args: '()'});
+      console.log(testCall);
 
       const decodedGet = await client.contractDecodeData('int', calledGet.result).catch(e => console.error(e));
       console.log('decodedGet1', decodedGet.value);
