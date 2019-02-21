@@ -2,7 +2,6 @@
     const contractAddress = 'ct_fwL1A4AoXUJVwCch7QaCMy4ajNDghhMUB3LeTtdRTtPxhWi2H';
     //Create variable for client so it can be used in different functions
     var client = null;
-
     //Function to build together the html list of all memes
     function displayMemeList(memeArray) {
       memeArray.map((item, index) => {
