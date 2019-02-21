@@ -1,4 +1,4 @@
-# meme_vote_4
+# meme_vote_3
 
 Submit memes and vote on memes with aeons(aeternity token).
 
