@@ -107,7 +107,7 @@
       memeArray = memeArray.sort(compare);
       //Display all memes in an html list
       displayMemeList(memeArray);
-    }
+    });
 
     //If someone clicks to vote on a meme, get the input and execute the voteCall
     jQuery("#memeBody").on("click", ".voteBtn", function(){
