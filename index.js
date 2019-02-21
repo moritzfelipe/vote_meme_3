@@ -72,7 +72,7 @@
       console.log('calledGet', calledGet);
 
       const testCall = await client.contractCallStatic(contractAddress, 'sophia-address', 'getMemesLength ', {args: '()'});
-      console.log(testCall);
+      console.log("testCall: "+testCall);
 
       const decodedGet = await client.contractDecodeData('int', calledGet.result).catch(e => console.error(e));
       console.log('decodedGet1', decodedGet.value);
