@@ -28,8 +28,6 @@
       return 0;
     }
 
-
-
     //Function to execute the vote call when a user votes with ae on a meme
     async function voteCall(index,inputAmount) {
       //Display the loader animation so the user knows that something is happening
@@ -71,8 +69,8 @@
       const calledGet = await client.contractCallStatic(contractAddress, 'sophia-address', 'getMemesLength ', {args: '()'}).catch(e => console.error(e));
       console.log('calledGet', calledGet);
 
-      const testCall = await client.contractCallStatic(contractAddress, 'sophia-address', 'getMemesLength ', {args: '()'}, 'int');
-      console.log("testCall: "+testCall);
+      const testCall = await client.onCallStatic('getMemesLength ', {args: '()'}, 'int');
+      console.log('testCall', testCall);
 
       const decodedGet = await client.contractDecodeData('int', calledGet.result).catch(e => console.error(e));
       console.log('decodedGet1', decodedGet.value);
@@ -87,18 +85,15 @@
       for (let i = 1; i < length+1; i++) {
         //Make the call to the blockchain to get all relevant information on the meme
         const calledGet = await client.contractCallStatic(contractAddress, 'sophia-address', 'getMeme ', {args: '('+i+')'}).catch(e => console.error(e));
-
         const decodedGet = await client.contractDecodeData('(address, string, string, int)', calledGet.result).catch(e => console.error(e));
 
-        //Create a new element with all the relevant information for the meme
-        var element = {};
-        element.creatorName = decodedGet.value[2].value;
-        element.memeUrl = decodedGet.value[1].value;
-        element.index = i;
-        element.votes = decodedGet.value[3].value;
-
-        //Push the new element into the array with all memes
-        memeArray.push(element);
+        //Create a new element with all the relevant information for the meme and push the new element into the array with all memes
+        memeArray.push({
+          creatorName: decodedGet.value[2].value,
+          memeUrl: decodedGet.value[1].value,
+          index: i,
+          votes: decodedGet.value[3].value
+        })
       }
 
       $("#loader").hide();
