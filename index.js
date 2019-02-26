@@ -6,23 +6,6 @@
     //Create a new array for the memes
     var memeArray = [];
 
-    //Function to build together the html list of all memes
-    function displayMemeList(memeArray) {
-      memeArray.map((item, index) => {
-        if(item.memeUrl){
-          $("#memeBody").append("<div id='index-"+index+"' class='card'></div>");
-          $("#index-"+index+"").append("<h5 class='card-title'>"+item.creatorName+"</h5>");
-          $("#index-"+index+"").append("<img class='card-img-top' src="+item.memeUrl+" alt='Card image cap'>");
-          $("#index-"+index+"").append("<div class='card-body' index="+item.index+" id='card-body-id-"+index+"'></div>");
-          $("#card-body-id-"+index+"").append("<h2 class='card-title'>"+(index+1)+".</div>");
-          $("#card-body-id-"+index+"").append("<h6 class='card-subtitle mb-2 text-muted'>"+item.votes+" ættos</h6>");
-          $("#card-body-id-"+index+"").append("<form class='inputForm' id='form-vote-"+index+"'></form>");
-          $("#form-vote-"+index+"").append("<input type='number' name='input1' class='form-control inputVote1' id='inputVote"+index+"' placeholder='Amount'>");
-          $("#card-body-id-"+index+"").append("<button class='btn voteBtn btn-block'>VOTE <img style='width:25px; margin-top:-0.25em;' src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/155/ballot-box-with-ballot_1f5f3.png'></button>");
-        }
-      });
-    }
-
     //Function that orders memes so that the meme with the most votes is on top
     function compare(a,b) {
       if (a.votes > b.votes)
@@ -86,8 +69,7 @@
     //If someone clicks to vote on a meme, get the input and execute the voteCall
     jQuery("#memeBody").on("click", ".voteBtn", async function(event){
       let value = $(this).siblings('input').val();
-      let id = event.target.id;
-          inputAmount = input.find('input[name="input1"]').val();
+      let index = event.target.id;
 
       //Display the loader animation so the user knows that something is happening
       $("#loader").show();
