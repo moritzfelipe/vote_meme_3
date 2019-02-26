@@ -35,10 +35,11 @@
     function renderMemes() {
       //Order the memes array so that the meme with the most objects is on top
       memeArray = memeArray.sort(compare);
+      let view = {memeArray}
       console.log(memeArray);
       var template = $('#template').html();
-      Mustache.parse(template);   // optional, speeds up future uses
-      var rendered = Mustache.render(template, memeArray);
+      Mustache.parse(template);   //optional, speeds up future uses
+      var rendered = Mustache.render(template, view);
       $('#memeBody').html(rendered);
     }
 
