@@ -47,7 +47,7 @@
       const calledGet = await client.contractCallStatic(contractAddress, 'sophia-address', 'getMemesLength ', {args: '()'}).catch(e => console.error(e));
       console.log('calledGet', calledGet);
 
-      const decodedGet = await client.contractDecodeData('int', calledGet.result.returnValue).catch).catch(e => console.error(e));
+      const decodedGet = await client.contractDecodeData('int', calledGet.result.returnValue).catch(e => console.error(e));
       console.log('decodedGet1', decodedGet.value);
 
       //Pass the int value of meme length to a const
