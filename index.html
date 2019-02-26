@@ -55,14 +55,26 @@
       </div>
     </div>
 
+    <script id="template" type="x-tmpl-mustache">
+    {{#memes}}
+      <div class="card">
+          <h5 class="card-title" style="margin-top:0.5em;">{{name}}</h5>
+          <img class="card-img-top" src="{{url}}" alt="Card image cap">
+          <div class="card-body" id="34">
+            <h2 class="card-title">1.</h2>
+            <h6 class="card-subtitle mb-2 text-muted">{{amount}}</h6>
+            <input type="number" style="margin-bottom:0.5em; margin-top:1em;"
+              class="form-control" placeholder="Amount" id={{id}}>
+            <button class="btn voteBtn btn-block" id={{id}}>VOTE</button>
+          </div>
+      </div>
+    {{/memes}}
+    </script>
+
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="aepp-sdk.browser.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.js"></script>
   <script src="index.js"></script>
-
-  <script type="text/javascript">
-
-  </script>
-
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
