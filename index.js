@@ -2,6 +2,10 @@
     const contractAddress = 'ct_fwL1A4AoXUJVwCch7QaCMy4ajNDghhMUB3LeTtdRTtPxhWi2H';
     //Create variable for client so it can be used in different functions
     var client = null;
+
+    //Create a new array for the memes
+    var memeArray = [];
+
     //Function to build together the html list of all memes
     function displayMemeList(memeArray) {
       memeArray.map((item, index) => {
@@ -52,9 +56,6 @@
 
       //Pass the int value of meme length to a const
       const length = decodedGet.value;
-
-      //Create a new array for the memes
-      var memeArray = [];
 
       //Loop over every meme to get all its relevant information
       for (let i = 1; i < length+1; i++) {
