@@ -23,14 +23,6 @@
       });
     }
 
-    function renderMemes() {
-      console.log(memeArray);
-      var template = $('#template').html();
-      Mustache.parse(template);   // optional, speeds up future uses
-      var rendered = Mustache.render(template, memeArray);
-      $('#memeBody').html(rendered);
-    }
-
     //Function that orders memes so that the meme with the most votes is on top
     function compare(a,b) {
       if (a.votes > b.votes)
@@ -38,6 +30,16 @@
       if (a.votes < b.votes)
         return 1;
       return 0;
+    }
+
+    function renderMemes() {
+      //Order the memes array so that the meme with the most objects is on top
+      memeArray = memeArray.sort(compare);
+      console.log(memeArray);
+      var template = $('#template').html();
+      Mustache.parse(template);   // optional, speeds up future uses
+      var rendered = Mustache.render(template, memeArray);
+      $('#memeBody').html(rendered);
     }
 
     //Execute main function
@@ -69,14 +71,13 @@
           creatorName: decodedGet.value[2].value,
           memeUrl: decodedGet.value[1].value,
           index: i,
-          votes: decodedGet.value[3].value
+          votes: decodedGet.value[3].value,
         })
       }
 
       $("#loader").hide();
 
-      //Order the memes array so that the meme with the most objects is on top
-      memeArray = memeArray.sort(compare);
+
       //Display all memes in an html list
       renderMemes();
     });
