@@ -81,10 +81,14 @@
       const decodedError = await client.contractDecodeData('string', e.returnValue).catch(e => console.error(e));
       console.log('decodedError', decodedError);
       });
+
       //Hide the loading animation after async calls return a value
-      $("#loader").hide();
+      const foundIndex = memeArray.findIndex(test => test.index == event.target.id);
+      //console.log(foundIndex);
+      memeArray[foundIndex].votes += parseInt(value, 10);
       //update and render memes
       renderMemes();
+      $("#loader").hide();
     });
 
     //If someone clicks to register a meme, get the input and execute the registerCall
@@ -94,10 +98,10 @@
 
       $("#loader").show();
       const calledSet = await client.contractCall(contractAddress, 'sophia-address', contractAddress, 'registerMeme', {args: '("'+url+'","'+name+'")'}).catch(async e => {
-        console.error(e);
-        const decodedError = await client.contractDecodeData('string', e.returnValue).catch(e => console.error(e));
-        console.log('decodedError', decodedError);
-      });
+      console.error(e);
+      const decodedError = await client.contractDecodeData('string', e.returnValue).catch(e => console.error(e));
+      console.log('decodedError', decodedError);
+    });
       $("#loader").hide();
       //update and render meme
       renderMemes();
