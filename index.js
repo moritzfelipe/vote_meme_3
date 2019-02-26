@@ -24,6 +24,7 @@
     }
 
     function renderMemes() {
+      console.log(memeArray);
       var template = $('#template').html();
       Mustache.parse(template);   // optional, speeds up future uses
       var rendered = Mustache.render(template, memeArray);
