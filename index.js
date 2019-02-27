@@ -59,11 +59,8 @@
       //Loop over every meme to get all its relevant information
       for (let i = 1; i < length.value+1; i++) {
         //Make the call to the blockchain to get all relevant information on the meme
-        const calledGet = await client.contractCallStatic(contractAddress,
-              'sophia-address', 'getMeme',
-              {args: '('+i+')'}).catch(e => console.error(e));
-        const decodedGet = await client.contractDecodeData('(address, string, string, int)',
-              calledGet.result.returnValue).catch(e => console.error(e));
+
+        const length = await callStatic('getMeme',`(${i})`,'(address, string, string, int)');
 
         //Create a new element with all the relevant information for the meme and push the new element into the array with all memes
         memeArray.push({
