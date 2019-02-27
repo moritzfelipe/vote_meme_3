@@ -31,12 +31,19 @@
       return decodedGet;
     }
 
-    async function contractCall(func, args, value, types) {
-      const calledSet = await client.contractCall(contractAddress, 'sophia-address',contractAddress, func, {args, options: {amount:value}}).catch(async e => {
+    async function contractCall(func, args, types) {
+      const calledSet = await client.contractCall(contractAddress, 'sophia-address',contractAddress, func, {args}).catch(async e => {
         const decodedError = await client.contractDecodeData(types, e.returnValue).catch(e => console.error(e));
       });
       return
     }
+
+    // async function contractCall(func, args, value, types) {
+    //   const calledSet = await client.contractCall(contractAddress, 'sophia-address',contractAddress, func, {args, options: {amount:value}}).catch(async e => {
+    //     const decodedError = await client.contractDecodeData(types, e.returnValue).catch(e => console.error(e));
+    //   });
+    //   return
+    // }
 
     //Execute main function
     window.addEventListener('load', async () => {
@@ -89,7 +96,7 @@
       $("#loader").show();
       //Make the async call to the blockchain with index of the meme and amount in attos
 
-      const voteResult = await contractCall('voteMeme',`(${index})`,value,'(string)');
+      //const voteResult = await contractCall('voteMeme',`(${index})`,value,'(string)');
 
       //console.log(calledSet);
       //Hide the loading animation after async calls return a value
@@ -108,7 +115,7 @@
           url = ($('#regUrl').val());
 
 
-      const registerRes = await contractCall('registerMeme',`(${url},${name})`,null,'(string)');
+      const registerRes = await contractCall('registerMeme',`(${url},${name})`,'(string)');
 
       // const calledSet = await client.contractCall(contractAddress, 'sophia-address',
       //       contractAddress, 'registerMeme',
