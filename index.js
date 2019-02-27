@@ -60,14 +60,14 @@
       for (let i = 1; i < length.value+1; i++) {
         //Make the call to the blockchain to get all relevant information on the meme
 
-        const length = await callStatic('getMeme',`(${i})`,'(address, string, string, int)');
+        const meme = await callStatic('getMeme',`(${i})`,'(address, string, string, int)');
 
         //Create a new element with all the relevant information for the meme and push the new element into the array with all memes
         memeArray.push({
-          creatorName: decodedGet.value[2].value,
-          memeUrl: decodedGet.value[1].value,
+          creatorName: meme.value[2].value,
+          memeUrl: meme.value[1].value,
           index: i,
-          votes: decodedGet.value[3].value,
+          votes: meme.value[3].value,
         })
       }
 
