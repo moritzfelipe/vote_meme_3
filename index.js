@@ -26,8 +26,11 @@
     }
 
     async function callStatic(func, args, types) {
-      let calledGet = await client.contractCallStatic(contractAddress,'sophia-address', func, {args}).catch(e => console.error(e));
-      let decodedGet = await client.contractDecodeData(types,calledGet.result.returnValue).catch(e => console.error(e));
+      console.log(func)
+      const calledGet = await client.contractCallStatic(contractAddress,'sophia-address', func, {args}).catch(e => console.error(e));
+      console.log(calledGet);
+      const decodedGet = await client.contractDecodeData(types,calledGet.result.returnValue).catch(e => console.error(e));
+      console.log(decodedGet);
       return decodedGet;
     }
 
@@ -51,6 +54,7 @@
       //const length = decodedGet.value;
 
       const length = await callStatic('getMemesLength','()','int');
+      console.log(length);
 
       //Loop over every meme to get all its relevant information
       for (let i = 1; i < length+1; i++) {
