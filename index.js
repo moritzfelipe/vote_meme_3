@@ -57,7 +57,7 @@
       console.log(length);
 
       //Loop over every meme to get all its relevant information
-      for (let i = 1; i < length+1; i++) {
+      for (let i = 1; i < length.value+1; i++) {
         //Make the call to the blockchain to get all relevant information on the meme
         const calledGet = await client.contractCallStatic(contractAddress,
               'sophia-address', 'getMeme',
