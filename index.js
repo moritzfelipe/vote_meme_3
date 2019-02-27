@@ -108,7 +108,7 @@
           url = ($('#regUrl').val());
 
 
-      const registerRes = await contractCall('registerMeme',`(${url},${name})`,0,'(string)');
+      const registerRes = await contractCall('registerMeme',`(${url},${name})`,null,'(string)');
 
       // const calledSet = await client.contractCall(contractAddress, 'sophia-address',
       //       contractAddress, 'registerMeme',
