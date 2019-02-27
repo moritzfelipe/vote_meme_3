@@ -26,20 +26,15 @@
     }
 
     async function callStatic(func, args, types) {
-      console.log(func)
       const calledGet = await client.contractCallStatic(contractAddress,'sophia-address', func, {args}).catch(e => console.error(e));
-      console.log(calledGet);
       const decodedGet = await client.contractDecodeData(types,calledGet.result.returnValue).catch(e => console.error(e));
-      console.log(decodedGet);
       return decodedGet;
     }
 
     async function contractCall(func, args, value, types) {
-      console.log(func)
       const calledSet = await client.contractCall(contractAddress, 'sophia-address',contractAddress, func, {args, options: {amount:value}}).catch(async e => {
         const decodedError = await client.contractDecodeData(types, e.returnValue).catch(e => console.error(e));
       });
-      console.log("test");
       return
     }
 
@@ -96,25 +91,6 @@
 
       const voteResult = await contractCall('voteMeme',`(${index})`,value,'(string)');
 
-      // let args = `(${index})`;
-      // let test124 = 'amount:'+value;
-      // console.log(test124);
-
-      // const calledSet = await client.contractCall(contractAddress, 'sophia-address',
-      //       contractAddress, 'voteMeme', {args,
-      //       options}).catch(async e => {
-      // const decodedError = await client.contractDecodeData('string',
-      //       e.returnValue).catch(e => console.error(e));
-      // });
-
-
-      // const calledSet = await client.contractCall(contractAddress, 'sophia-address',
-      //       contractAddress, 'voteMeme', {args,
-      //       options: {amount:value}}).catch(async e => {
-      // const decodedError = await client.contractDecodeData('string',
-      //       e.returnValue).catch(e => console.error(e));
-      // });
-
       //console.log(calledSet);
       //Hide the loading animation after async calls return a value
       const foundIndex = memeArray.findIndex(test => test.index == event.target.id);
@@ -127,16 +103,19 @@
 
     //If someone clicks to register a meme, get the input and execute the registerCall
     $('#registerBtn').click(async function(){
+      $("#loader").show();
       var name = ($('#regName').val()),
           url = ($('#regUrl').val());
 
-      $("#loader").show();
-      const calledSet = await client.contractCall(contractAddress, 'sophia-address',
-            contractAddress, 'registerMeme',
-            {args: '("'+url+'","'+name+'")'}).catch(async e => {
-                const decodedError = await client.contractDecodeData('string',
-                e.returnValue).catch(e => console.error(e));
-            });
+
+      const registerRes = await contractCall('registerMeme',`(${url},${name})`,0,'(string)');
+
+      // const calledSet = await client.contractCall(contractAddress, 'sophia-address',
+      //       contractAddress, 'registerMeme',
+      //       {args: '("'+url+'","'+name+'")'}).catch(async e => {
+      //           const decodedError = await client.contractDecodeData('string',
+      //           e.returnValue).catch(e => console.error(e));
+      //       });
 
       $("#loader").hide();
       //update and render meme
