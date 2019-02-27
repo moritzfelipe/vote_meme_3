@@ -102,7 +102,7 @@
 
       const calledSet = await client.contractCall(contractAddress, 'sophia-address',
             contractAddress, 'voteMeme', {args,
-            options: {amount: value}}}).catch(async e => {
+            options: {amount: value}}).catch(async e => {
       const decodedError = await client.contractDecodeData('string',
             e.returnValue).catch(e => console.error(e));
       });
