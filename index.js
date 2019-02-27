@@ -19,7 +19,6 @@
       //Order the memes array so that the meme with the most objects is on top
       memeArray = memeArray.sort(compare);
       let view = {memeArray}
-      console.log(memeArray);
       var template = $('#template').html();
       Mustache.parse(template);   //optional, speeds up future uses
       var rendered = Mustache.render(template, view);
@@ -34,12 +33,11 @@
       $("#loader").show();
       //First make a call to get to know how may memes have been created and need to be displayed
 
-
-      const calledGet = await client.contractCallStatic(contractAddress, 'sophia-address', 'getMemesLength ', {args: '()'}).catch(e => console.error(e));
-      console.log('calledGet', calledGet);
-
-      const decodedGet = await client.contractDecodeData('int', calledGet.result.returnValue).catch(e => console.error(e));
-      console.log('decodedGet1', decodedGet.value);
+      const calledGet = await client.contractCallStatic(contractAddress,
+            'sophia-address', 'getMemesLength',
+            {args: '()'}).catch(e => console.error(e));
+      const decodedGet = await client.contractDecodeData('int',
+            calledGet.result.returnValue).catch(e => console.error(e));
 
       //Pass the int value of meme length to a const
       const length = decodedGet.value;
@@ -47,8 +45,11 @@
       //Loop over every meme to get all its relevant information
       for (let i = 1; i < length+1; i++) {
         //Make the call to the blockchain to get all relevant information on the meme
-        const calledGet = await client.contractCallStatic(contractAddress, 'sophia-address', 'getMeme ', {args: '('+i+')'}).catch(e => console.error(e));
-        const decodedGet = await client.contractDecodeData('(address, string, string, int)', calledGet.result.returnValue).catch(e => console.error(e));
+        const calledGet = await client.contractCallStatic(contractAddress,
+              'sophia-address', 'getMeme',
+              {args: '('+i+')'}).catch(e => console.error(e));
+        const decodedGet = await client.contractDecodeData('(address, string, string, int)',
+              calledGet.result.returnValue).catch(e => console.error(e));
 
         //Create a new element with all the relevant information for the meme and push the new element into the array with all memes
         memeArray.push({
@@ -61,8 +62,6 @@
 
       $("#loader").hide();
 
-
-      //Display all memes in an html list
       renderMemes();
     });
 
@@ -75,11 +74,10 @@
       $("#loader").show();
       //Make the async call to the blockchain with index of the meme and amount in attos
       const calledSet = await client.contractCall(contractAddress, 'sophia-address',
-            contractAddress, 'voteMeme', {args: '('+index+')',options: {amount: value}}).catch(async e => {
-      console.error(e);
-      //If there is an error decode and console log it
-      const decodedError = await client.contractDecodeData('string', e.returnValue).catch(e => console.error(e));
-      console.log('decodedError', decodedError);
+            contractAddress, 'voteMeme', {args: '('+index+')',
+            options: {amount: value}}).catch(async e => {
+      const decodedError = await client.contractDecodeData('string',
+            e.returnValue).catch(e => console.error(e));
       });
 
       //Hide the loading animation after async calls return a value
@@ -97,11 +95,13 @@
           url = ($('#regUrl').val());
 
       $("#loader").show();
-      const calledSet = await client.contractCall(contractAddress, 'sophia-address', contractAddress, 'registerMeme', {args: '("'+url+'","'+name+'")'}).catch(async e => {
-      console.error(e);
-      const decodedError = await client.contractDecodeData('string', e.returnValue).catch(e => console.error(e));
-      console.log('decodedError', decodedError);
-    });
+      const calledSet = await client.contractCall(contractAddress, 'sophia-address',
+            contractAddress, 'registerMeme',
+            {args: '("'+url+'","'+name+'")'}).catch(async e => {
+                const decodedError = await client.contractDecodeData('string',
+                e.returnValue).catch(e => console.error(e));
+            });
+
       $("#loader").hide();
       //update and render meme
       renderMemes();
