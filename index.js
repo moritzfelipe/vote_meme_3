@@ -39,6 +39,8 @@
       const calledSet = await client.contractCall(contractAddress, 'sophia-address',contractAddress, func, {args, options: {amount:value}}).catch(async e => {
         const decodedError = await client.contractDecodeData(types, e.returnValue).catch(e => console.error(e));
       });
+      console.log("test");
+      return
     }
 
     //Execute main function
