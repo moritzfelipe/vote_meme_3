@@ -97,7 +97,8 @@
 //      const voteResult = await contractCall('voteMeme',`(${index})`,`{amount:${value}}`,'(string)');
 
       let args = `(${index})`;
-      let options = "{amount:2}";
+      let test124 = 'amount:'+value;
+      console.log(test124);
 
       // const calledSet = await client.contractCall(contractAddress, 'sophia-address',
       //       contractAddress, 'voteMeme', {args,
@@ -109,7 +110,7 @@
 
       const calledSet = await client.contractCall(contractAddress, 'sophia-address',
             contractAddress, 'voteMeme', {args,
-            options: {amount: value}}).catch(async e => {
+            options: {test124}}).catch(async e => {
       const decodedError = await client.contractDecodeData('string',
             e.returnValue).catch(e => console.error(e));
       });
