@@ -8,7 +8,7 @@
 
     var memesLength = 0;
 
-    //Function that orders memes so that the meme with the most votes is on top
+    //Function that orders memes so that the meme with the most votes is on top.
     function compare(a,b) {
       if (a.votes > b.votes)
         return -1;
