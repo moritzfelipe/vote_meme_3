@@ -25,6 +25,12 @@
       $('#memeBody').html(rendered);
     }
 
+    function callStatic(func, args, types) {
+      let calledGet = await client.contractCallStatic(contractAddress,'sophia-address', func, {args}).catch(e => console.error(e));
+      let decodedGet = await client.contractDecodeData(types,calledGet.result.returnValue).catch(e => console.error(e));
+      return decodedGet;
+    }
+
     //Execute main function
     window.addEventListener('load', async () => {
       //Initialize the Aepp object through aepp-sdk.browser.js and the base app on that this aepp needs to be running.
@@ -33,14 +39,18 @@
       $("#loader").show();
       //First make a call to get to know how may memes have been created and need to be displayed
 
-      const calledGet = await client.contractCallStatic(contractAddress,
-            'sophia-address', 'getMemesLength',
-            {args: '()'}).catch(e => console.error(e));
-      const decodedGet = await client.contractDecodeData('int',
-            calledGet.result.returnValue).catch(e => console.error(e));
+      // const calledGet = await client.contractCallStatic(contractAddress,
+      //       'sophia-address', 'getMemesLength',
+      //       {args: '()'}).catch(e => console.error(e));
+      // const decodedGet = await client.contractDecodeData('int',
+      //       calledGet.result.returnValue).catch(e => console.error(e));
+
+
 
       //Pass the int value of meme length to a const
-      const length = decodedGet.value;
+      //const length = decodedGet.value;
+
+      const length = await callStatic('getMemesLength','()','int');
 
       //Loop over every meme to get all its relevant information
       for (let i = 1; i < length+1; i++) {
