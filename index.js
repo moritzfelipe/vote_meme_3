@@ -31,19 +31,19 @@
       return decodedGet;
     }
 
-    async function contractCall(func, args, types) {
-      const calledSet = await client.contractCall(contractAddress, 'sophia-address',contractAddress, func, {args}).catch(async e => {
-        const decodedError = await client.contractDecodeData(types, e.returnValue).catch(e => console.error(e));
-      });
-      return
-    }
-
-    // async function contractCall(func, args, value, types) {
-    //   const calledSet = await client.contractCall(contractAddress, 'sophia-address',contractAddress, func, {args, options: {amount:value}}).catch(async e => {
+    // async function contractCall(func, args, types) {
+    //   const calledSet = await client.contractCall(contractAddress, 'sophia-address',contractAddress, func, {args}).catch(async e => {
     //     const decodedError = await client.contractDecodeData(types, e.returnValue).catch(e => console.error(e));
     //   });
     //   return
     // }
+
+    async function contractCall(func, args, value, types) {
+      const calledSet = await client.contractCall(contractAddress, 'sophia-address',contractAddress, func, {args, options: {amount:value}}).catch(async e => {
+        const decodedError = await client.contractDecodeData(types, e.returnValue).catch(e => console.error(e));
+      });
+      return
+    }
 
     //Execute main function
     window.addEventListener('load', async () => {
@@ -115,7 +115,7 @@
           url = ($('#regUrl').val());
 
 
-      const registerRes = await contractCall('registerMeme',`("${url}","${name}")`,'(string)');
+      const registerRes = await contractCall('registerMeme',`("${url}","${name}")`,0,'(string)');
 
       // const calledSet = await client.contractCall(contractAddress, 'sophia-address',
       //       contractAddress, 'registerMeme',
