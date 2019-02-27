@@ -34,6 +34,14 @@
       return decodedGet;
     }
 
+    async function contractCall(func, args, options, types) {
+      console.log(func)
+      const calledSet = await client.contractCall(contractAddress, 'sophia-address',contractAddress, func, {args, options}).catch(async e => {
+        const decodedError = await client.contractDecodeData(types, e.returnValue).catch(e => console.error(e));
+      });
+      return decodedError;
+    }
+
     //Execute main function
     window.addEventListener('load', async () => {
       //Initialize the Aepp object through aepp-sdk.browser.js and the base app on that this aepp needs to be running.
@@ -84,12 +92,15 @@
       //Display the loader animation so the user knows that something is happening
       $("#loader").show();
       //Make the async call to the blockchain with index of the meme and amount in attos
-      const calledSet = await client.contractCall(contractAddress, 'sophia-address',
-            contractAddress, 'voteMeme', {args: '('+index+')',
-            options: {amount: value}}).catch(async e => {
-      const decodedError = await client.contractDecodeData('string',
-            e.returnValue).catch(e => console.error(e));
-      });
+      const voteResult = await contractCall('voteMeme',`(${index})`,`amount:${value}`,'(string)');
+
+      console.log(voteResult);
+      // const calledSet = await client.contractCall(contractAddress, 'sophia-address',
+      //       contractAddress, 'voteMeme', {args: '('+index+')',
+      //       options: {amount: value}}).catch(async e => {
+      // const decodedError = await client.contractDecodeData('string',
+      //       e.returnValue).catch(e => console.error(e));
+      // });
 
       //Hide the loading animation after async calls return a value
       const foundIndex = memeArray.findIndex(test => test.index == event.target.id);
