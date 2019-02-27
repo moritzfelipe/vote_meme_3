@@ -99,20 +99,20 @@
       let args = `(${index})`;
       let options = "{amount:2}";
 
-      const calledSet = await client.contractCall(contractAddress, 'sophia-address',
-            contractAddress, 'voteMeme', {args,
-            options}).catch(async e => {
-      const decodedError = await client.contractDecodeData('string',
-            e.returnValue).catch(e => console.error(e));
-      });
-
-
       // const calledSet = await client.contractCall(contractAddress, 'sophia-address',
       //       contractAddress, 'voteMeme', {args,
-      //       options: {amount: value}}).catch(async e => {
+      //       options}).catch(async e => {
       // const decodedError = await client.contractDecodeData('string',
       //       e.returnValue).catch(e => console.error(e));
       // });
+
+
+      const calledSet = await client.contractCall(contractAddress, 'sophia-address',
+            contractAddress, 'voteMeme', {args,
+            options: {amount: value}}).catch(async e => {
+      const decodedError = await client.contractDecodeData('string',
+            e.returnValue).catch(e => console.error(e));
+      });
 
       console.log(calledSet);
       //Hide the loading animation after async calls return a value
