@@ -25,7 +25,7 @@
       $('#memeBody').html(rendered);
     }
 
-    function callStatic(func, args, types) {
+    async function callStatic(func, args, types) {
       let calledGet = await client.contractCallStatic(contractAddress,'sophia-address', func, {args}).catch(e => console.error(e));
       let decodedGet = await client.contractDecodeData(types,calledGet.result.returnValue).catch(e => console.error(e));
       return decodedGet;
