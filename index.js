@@ -6,6 +6,8 @@
     //Create a new array for the memes
     var memeArray = [];
 
+    var memesLength = 0;
+
     //Function that orders memes so that the meme with the most votes is on top
     function compare(a,b) {
       if (a.votes > b.votes)
@@ -31,13 +33,6 @@
       return decodedGet;
     }
 
-    // async function contractCall(func, args, types) {
-    //   const calledSet = await client.contractCall(contractAddress, 'sophia-address',contractAddress, func, {args}).catch(async e => {
-    //     const decodedError = await client.contractDecodeData(types, e.returnValue).catch(e => console.error(e));
-    //   });
-    //   return
-    // }
-
     async function contractCall(func, args, value, types) {
       const calledSet = await client.contractCall(contractAddress, 'sophia-address',contractAddress, func, {args, options: {amount:value}}).catch(async e => {
         const decodedError = await client.contractDecodeData(types, e.returnValue).catch(e => console.error(e));
@@ -53,22 +48,11 @@
       $("#loader").show();
       //First make a call to get to know how may memes have been created and need to be displayed
 
-      // const calledGet = await client.contractCallStatic(contractAddress,
-      //       'sophia-address', 'getMemesLength',
-      //       {args: '()'}).catch(e => console.error(e));
-      // const decodedGet = await client.contractDecodeData('int',
-      //       calledGet.result.returnValue).catch(e => console.error(e));
-
-
-
-      //Pass the int value of meme length to a const
-      //const length = decodedGet.value;
-
-      const length = await callStatic('getMemesLength','()','int');
-      console.log(length);
+      const getMemesLength = await callStatic('getMemesLength','()','int');
+      memesLength = getMemesLength.value;
 
       //Loop over every meme to get all its relevant information
-      for (let i = 1; i < length.value+1; i++) {
+      for (let i = 1; i < memesLength; i++) {
         //Make the call to the blockchain to get all relevant information on the meme
 
         const meme = await callStatic('getMeme',`(${i})`,'(address, string, string, int)');
@@ -96,9 +80,8 @@
       $("#loader").show();
       //Make the async call to the blockchain with index of the meme and amount in attos
 
-      //const voteResult = await contractCall('voteMeme',`(${index})`,value,'(string)');
+      const voteResult = await contractCall('voteMeme',`(${index})`,value,'(string)');
 
-      //console.log(calledSet);
       //Hide the loading animation after async calls return a value
       const foundIndex = memeArray.findIndex(test => test.index == event.target.id);
       //console.log(foundIndex);
@@ -114,15 +97,13 @@
       var name = ($('#regName').val()),
           url = ($('#regUrl').val());
 
-
       const registerRes = await contractCall('registerMeme',`("${url}","${name}")`,0,'(string)');
-
-      // const calledSet = await client.contractCall(contractAddress, 'sophia-address',
-      //       contractAddress, 'registerMeme',
-      //       {args: '("'+url+'","'+name+'")'}).catch(async e => {
-      //           const decodedError = await client.contractDecodeData('string',
-      //           e.returnValue).catch(e => console.error(e));
-      //       });
+      memeArray.push({
+        creatorName: name,
+        memeUrl: url,
+        index: memesLength,
+        votes: 0,
+      })
 
       $("#loader").hide();
       //update and render meme
