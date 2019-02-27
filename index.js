@@ -97,7 +97,7 @@
 //      const voteResult = await contractCall('voteMeme',`(${index})`,`{amount:${value}}`,'(string)');
 
       let args = `(${index})`;
-      let options = "options:{amount:2}";
+      let options = "{amount:2}";
 
       const calledSet = await client.contractCall(contractAddress, 'sophia-address',
             contractAddress, 'voteMeme', {args,
