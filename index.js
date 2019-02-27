@@ -39,7 +39,6 @@
       const calledSet = await client.contractCall(contractAddress, 'sophia-address',contractAddress, func, {args, options}).catch(async e => {
         const decodedError = await client.contractDecodeData(types, e.returnValue).catch(e => console.error(e));
       });
-      return decodedError;
     }
 
     //Execute main function
@@ -94,7 +93,6 @@
       //Make the async call to the blockchain with index of the meme and amount in attos
       const voteResult = await contractCall('voteMeme',`(${index})`,`amount:${value}`,'(string)');
 
-      console.log(voteResult);
       // const calledSet = await client.contractCall(contractAddress, 'sophia-address',
       //       contractAddress, 'voteMeme', {args: '('+index+')',
       //       options: {amount: value}}).catch(async e => {
