@@ -99,7 +99,6 @@
       let args = `(${index})`;
       let options = `{amount:${value}}`;
 
-
       const calledSet = await client.contractCall(contractAddress, 'sophia-address',
             contractAddress, 'voteMeme', {args,
             options: {amount: value}}).catch(async e => {
