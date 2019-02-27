@@ -20,7 +20,6 @@
     function renderMemes() {
       //Order the memes array so that the meme with the most objects is on top
       memeArray = memeArray.sort(compare);
-      //let view = {memeArray}
       var template = $('#template').html();
       Mustache.parse(template);   //optional, speeds up future uses
       var rendered = Mustache.render(template, {memeArray});
@@ -42,19 +41,20 @@
 
     //Execute main function
     window.addEventListener('load', async () => {
+      //Display the loader animation so the user knows that something is happening
+      $("#loader").show();
+
       //Initialize the Aepp object through aepp-sdk.browser.js and the base app on that this aepp needs to be running.
       client = await Ae.Aepp();
 
-      $("#loader").show();
       //First make a call to get to know how may memes have been created and need to be displayed
-
       const getMemesLength = await callStatic('getMemesLength','()','int');
       memesLength = getMemesLength.value;
 
       //Loop over every meme to get all its relevant information
       for (let i = 1; i < memesLength; i++) {
-        //Make the call to the blockchain to get all relevant information on the meme
 
+        //Make the call to the blockchain to get all relevant information on the meme
         const meme = await callStatic('getMeme',`(${i})`,'(address, string, string, int)');
 
         //Create a new element with all the relevant information for the meme and push the new element into the array with all memes
@@ -66,8 +66,11 @@
         })
       }
 
-      $("#loader").hide();
+      //Display the memes
       renderMemes();
+
+      //Hide loader animation
+      $("#loader").hide();
     });
 
     //If someone clicks to vote on a meme, get the input and execute the voteCall
@@ -75,14 +78,12 @@
       let value = $(this).siblings('input').val();
       let index = event.target.id;
 
-      //Display the loader animation so the user knows that something is happening
       $("#loader").show();
-      //Make the async call to the blockchain with index of the meme and amount in attos
 
       await contractCall('voteMeme',`(${index})`,value,'(string)');
 
       //Hide the loading animation after async calls return a value
-      const foundIndex = memeArray.findIndex(test => test.index == event.target.id);
+      const foundIndex = memeArray.findIndex(meme => meme.index == event.target.id);
       //console.log(foundIndex);
       memeArray[foundIndex].votes += parseInt(value, 10);
       //update and render memes
@@ -96,7 +97,7 @@
       var name = ($('#regName').val()),
           url = ($('#regUrl').val());
 
-      const registerRes = await contractCall('registerMeme',`("${url}","${name}")`,0,'(string)');
+      await contractCall('registerMeme',`("${url}","${name}")`,0,'(string)');
 
       memeArray.push({
         creatorName: name,
