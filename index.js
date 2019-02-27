@@ -67,7 +67,6 @@
       }
 
       $("#loader").hide();
-
       renderMemes();
     });
 
@@ -80,7 +79,7 @@
       $("#loader").show();
       //Make the async call to the blockchain with index of the meme and amount in attos
 
-      const voteResult = await contractCall('voteMeme',`(${index})`,value,'(string)');
+      await contractCall('voteMeme',`(${index})`,value,'(string)');
 
       //Hide the loading animation after async calls return a value
       const foundIndex = memeArray.findIndex(test => test.index == event.target.id);
@@ -98,6 +97,7 @@
           url = ($('#regUrl').val());
 
       const registerRes = await contractCall('registerMeme',`("${url}","${name}")`,0,'(string)');
+
       memeArray.push({
         creatorName: name,
         memeUrl: url,
