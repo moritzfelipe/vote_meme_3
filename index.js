@@ -6,7 +6,6 @@
     //Create a new array for the memes
     var memeArray = [];
 
-    //Create a global variable to hold length of memes
     var memesLength = 0;
 
     //Function that orders memes so that the meme with the most votes is on top
@@ -18,9 +17,8 @@
       return 0;
     }
 
-    //Function to display all memes through the mustache template
     function renderMemes() {
-      //Order the memes array first
+      //Order the memes array so that the meme with the most objects is on top
       memeArray = memeArray.sort(compare);
       var template = $('#template').html();
       Mustache.parse(template);   //optional, speeds up future uses
@@ -28,14 +26,12 @@
       $('#memeBody').html(rendered);
     }
 
-    //Create a function to make read calls to the aeternity blockchain
     async function callStatic(func, args, types) {
       const calledGet = await client.contractCallStatic(contractAddress,'sophia-address', func, {args}).catch(e => console.error(e));
       const decodedGet = await client.contractDecodeData(types,calledGet.result.returnValue).catch(e => console.error(e));
       return decodedGet;
     }
 
-    //Create a function to make write calls to the aeternity blockchain
     async function contractCall(func, args, value, types) {
       const calledSet = await client.contractCall(contractAddress, 'sophia-address',contractAddress, func, {args, options: {amount:value}}).catch(async e => {
         const decodedError = await client.contractDecodeData(types, e.returnValue).catch(e => console.error(e));
@@ -45,23 +41,23 @@
 
     //Execute main function
     window.addEventListener('load', async () => {
-      //Display the loader animation so the user knows that something is happening.
+      //Display the loader animation so the user knows that something is happening
       $("#loader").show();
 
-      //Initialize the Aepp object through aepp-sdk.browser.js and the base app.
+      //Initialize the Aepp object through aepp-sdk.browser.js and the base app on that this aepp needs to be running.
       client = await Ae.Aepp();
 
-      //Make a call to get to know how many memes have been created.
+      //First make a call to get to know how may memes have been created and need to be displayed
       const getMemesLength = await callStatic('getMemesLength','()','int');
       memesLength = getMemesLength.value;
 
-      //Loop over every meme to get all relevant information of the memes.
+      //Loop over every meme to get all its relevant information
       for (let i = 1; i < memesLength; i++) {
 
         //Make the call to the blockchain to get all relevant information on the meme
         const meme = await callStatic('getMeme',`(${i})`,'(address, string, string, int)');
 
-        //Push the new object into the array with all memes
+        //Create a new element with all the relevant information for the meme and push the new element into the array with all memes
         memeArray.push({
           creatorName: meme.value[2].value,
           memeUrl: meme.value[1].value,
@@ -79,17 +75,18 @@
 
     //If someone clicks to vote on a meme, get the input and execute the voteCall
     jQuery("#memeBody").on("click", ".voteBtn", async function(event){
-      $("#loader").show();
       let value = $(this).siblings('input').val();
       let index = event.target.id;
 
+      $("#loader").show();
 
       await contractCall('voteMeme',`(${index})`,value,'(string)');
 
-
+      //Hide the loading animation after async calls return a value
       const foundIndex = memeArray.findIndex(meme => meme.index == event.target.id);
+      //console.log(foundIndex);
       memeArray[foundIndex].votes += parseInt(value, 10);
-
+      //update and render memes
       renderMemes();
       $("#loader").hide();
     });
@@ -109,6 +106,7 @@
         votes: 0,
       })
 
-      renderMemes();
       $("#loader").hide();
+      //update and render meme
+      renderMemes();
     });
