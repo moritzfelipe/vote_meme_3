@@ -115,7 +115,7 @@
       //       e.returnValue).catch(e => console.error(e));
       // });
 
-      console.log(calledSet);
+      //console.log(calledSet);
       //Hide the loading animation after async calls return a value
       const foundIndex = memeArray.findIndex(test => test.index == event.target.id);
       //console.log(foundIndex);
