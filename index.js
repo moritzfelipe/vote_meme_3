@@ -83,11 +83,11 @@
       //const voteResult = await contractCall('voteMeme',`(${index})`,value,'(string)');
 
       const calledSet = await client.contractCall(contractAddress, 'sophia-address', contractAddress, 'voteMeme', {args: '('+index+')',options: {amount: value}}).catch(async e => {
-      console.error(e);
-      //If there is an error decode and console log it
-      const decodedError = await client.contractDecodeData('string', e.returnValue).catch(e => console.error(e));
-      console.log('decodedError', decodedError);
-
+        console.error(e);
+        //If there is an error decode and console log it
+        const decodedError = await client.contractDecodeData('string', e.returnValue).catch(e => console.error(e));
+        console.log('decodedError', decodedError);
+      });
       //Hide the loading animation after async calls return a value
       const foundIndex = memeArray.findIndex(meme => meme.index == event.target.id);
       //console.log(foundIndex);
