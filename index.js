@@ -80,7 +80,9 @@
 
       $("#loader").show();
 
-      await contractCall('voteMeme',`(${index})`,value,'(string)');
+      const voteResult = await contractCall('voteMeme',`(${index})`,value,'(string)');
+
+      
 
       //Hide the loading animation after async calls return a value
       const foundIndex = memeArray.findIndex(meme => meme.index == event.target.id);
