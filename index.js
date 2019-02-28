@@ -75,12 +75,11 @@
 
     //If someone clicks to vote on a meme, get the input and execute the voteCall
     jQuery("#memeBody").on("click", ".voteBtn", async function(event){
+      $("#loader").show();
       let value = $(this).siblings('input').val();
       let index = event.target.id;
 
-      $("#loader").show();
-
-      const voteResult = await contractCall('voteMeme',`(${index})`,value,'(string)');
+      await contractCall('voteMeme',`(${index})`,value,'(string)');
 
       //Hide the loading animation after async calls return a value
       const foundIndex = memeArray.findIndex(meme => meme.index == event.target.id);
