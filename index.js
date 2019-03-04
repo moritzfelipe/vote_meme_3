@@ -8,18 +8,9 @@
 
     var memesLength = 0;
 
-    //Function that orders memes so that the meme with the most votes is on top.
-    function compare(a,b) {
-      if (a.votes > b.votes)
-        return -1;
-      if (a.votes < b.votes)
-        return 1;
-      return 0;
-    }
-
     function renderMemes() {
       //Order the memes array so that the meme with the most objects is on top
-      memeArray = memeArray.sort(compare);
+      memeArray = memeArray.sort(function(a,b){return b.votes-a.votes})
       var template = $('#template').html();
       Mustache.parse(template);   //optional, speeds up future uses
       var rendered = Mustache.render(template, {memeArray});
