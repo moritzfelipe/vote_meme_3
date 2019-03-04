@@ -92,7 +92,7 @@
       memeArray.push({
         creatorName: name,
         memeUrl: url,
-        index: memesLength,
+        index: memesLength+1,
         votes: 0,
       })
 
