@@ -34,7 +34,7 @@
 
     async function contractCall(func, args, value, types) {
       const calledSet = await client.contractCall(contractAddress, 'sophia-address',contractAddress, func, {args, options: {amount:value}}).catch(async e => {
-        const decodedError = await client.contractDecodeData(types, e.result.returnValue).catch(e => console.error(e));
+        const decodedError = await client.contractDecodeData(types, e.returnValue).catch(e => console.error(e));
       });
       return
     }
