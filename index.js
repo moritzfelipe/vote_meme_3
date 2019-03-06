@@ -2,10 +2,9 @@
     const contractAddress = 'ct_fwL1A4AoXUJVwCch7QaCMy4ajNDghhMUB3LeTtdRTtPxhWi2H';
     //Create variable for client so it can be used in different functions
     var client = null;
-
     //Create a new array for the memes
     var memeArray = [];
-
+    //Create a new variable to store the length of the meme globally
     var memesLength = 0;
 
     function renderMemes() {
@@ -35,20 +34,20 @@
       //Display the loader animation so the user knows that something is happening
       $("#loader").show();
 
-      //Initialize the Aepp object through aepp-sdk.browser.js and the base app on that this aepp needs to be running.
+      //Initialize the Aepp object through aepp-sdk.browser.js, the base app needs to be running.
       client = await Ae.Aepp();
 
       //First make a call to get to know how may memes have been created and need to be displayed
       const getMemesLength = await callStatic('getMemesLength','()','int');
       memesLength = getMemesLength.value;
 
-      //Loop over every meme to get all its relevant information
+      //Loop over every meme to get all their relevant information
       for (let i = 1; i < memesLength; i++) {
 
         //Make the call to the blockchain to get all relevant information on the meme
         const meme = await callStatic('getMeme',`(${i})`,'(address, string, string, int)');
 
-        //Create a new element with all the relevant information for the meme and push the new element into the array with all memes
+        //Create meme object with  info from the call and push into the array with all memes
         memeArray.push({
           creatorName: meme.value[2].value,
           memeUrl: meme.value[1].value,
@@ -57,7 +56,7 @@
         })
       }
 
-      //Display the memes
+      //Display updated memes
       renderMemes();
 
       //Hide loader animation
@@ -76,7 +75,7 @@
       const foundIndex = memeArray.findIndex(meme => meme.index == event.target.id);
       //console.log(foundIndex);
       memeArray[foundIndex].votes += parseInt(value, 10);
-      //update and render memes
+
       renderMemes();
       $("#loader").hide();
     });
@@ -96,7 +95,6 @@
         votes: 0,
       })
 
-      $("#loader").hide();
-      //update and render meme
       renderMemes();
+      $("#loader").hide();
     });
