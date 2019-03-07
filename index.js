@@ -2,30 +2,37 @@
     const contractAddress = 'ct_fwL1A4AoXUJVwCch7QaCMy4ajNDghhMUB3LeTtdRTtPxhWi2H';
     //Create variable for client so it can be used in different functions
     var client = null;
-    //Create a new array for the memes
+    //Create a new global array for the memes
     var memeArray = [];
     //Create a new variable to store the length of the meme globally
     var memesLength = 0;
 
     function renderMemes() {
-      //Order the memes array so that the meme with the most objects is on top
+      //Order the memes array so that the meme with the most votes is on top
       memeArray = memeArray.sort(function(a,b){return b.votes-a.votes})
-      var template = $('#template').html();
-      Mustache.parse(template);   //optional, speeds up future uses
-      var rendered = Mustache.render(template, {memeArray});
+      //Get the template we created in a block scoped variable
+      let template = $('#template').html();
+      //Use mustache parse function to speeds up on future uses
+      Mustache.parse(template);
+      //Create variable with result of render func form template and data
+      let rendered = Mustache.render(template, {memeArray});
+      //Use jquery to add the result of the rendering to our html
       $('#memeBody').html(rendered);
     }
 
+    //Create a asynchronous write call for our smart contract
     async function callStatic(func, args, types) {
+      //Make a call to get data of smart contract func, with specefied arguments
       const calledGet = await client.contractCallStatic(contractAddress,
       'sophia-address', func, {args}).catch(e => console.error(e));
-
+      //Make another call to decode the data received in first call
       const decodedGet = await client.contractDecodeData(types,
       calledGet.result.returnValue).catch(e => console.error(e));
 
       return decodedGet;
     }
 
+    //Create a asynchronous read call for our smart contract
     async function contractCall(func, args, value, types) {
       const calledSet = await client.contractCall(contractAddress,
       'sophia-address',contractAddress, func,
@@ -47,6 +54,7 @@
 
       //First make a call to get to know how may memes have been created and need to be displayed
       const getMemesLength = await callStatic('getMemesLength','()','int');
+      //Assign the value of meme length to the global variable
       memesLength = getMemesLength.value;
 
       //Loop over every meme to get all their relevant information
@@ -74,9 +82,12 @@
     //If someone clicks to vote on a meme, get the input and execute the voteCall
     jQuery("#memeBody").on("click", ".voteBtn", async function(event){
       $("#loader").show();
-      let value = $(this).siblings('input').val();
-      let index = event.target.id;
+      //Create two new let block scoped variables, value for the vote input and
+      //index to get the index of the meme on which the user wants to vote
+      let value = $(this).siblings('input').val(),
+          index = event.target.id;
 
+      //Promise to execute execute call for the vote meme function with let values
       await contractCall('voteMeme',`(${index})`,value,'(string)');
 
       //Hide the loading animation after async calls return a value
@@ -91,11 +102,14 @@
     //If someone clicks to register a meme, get the input and execute the registerCall
     $('#registerBtn').click(async function(){
       $("#loader").show();
-      var name = ($('#regName').val()),
+      //Create two new let variables which get the values from the input fields
+      let name = ($('#regName').val()),
           url = ($('#regUrl').val());
 
+      //Make the contract call to register the meme with the newly passed values
       await contractCall('registerMeme',`("${url}","${name}")`,0,'(string)');
 
+      //Add the new created memeobject to our memearray
       memeArray.push({
         creatorName: name,
         memeUrl: url,
