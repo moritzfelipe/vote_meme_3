@@ -17,15 +17,23 @@
     }
 
     async function callStatic(func, args, types) {
-      const calledGet = await client.contractCallStatic(contractAddress,'sophia-address', func, {args}).catch(e => console.error(e));
-      const decodedGet = await client.contractDecodeData(types,calledGet.result.returnValue).catch(e => console.error(e));
+      const calledGet = await client.contractCallStatic(contractAddress,
+      'sophia-address', func, {args}).catch(e => console.error(e));
+
+      const decodedGet = await client.contractDecodeData(types,
+      calledGet.result.returnValue).catch(e => console.error(e));
+
       return decodedGet;
     }
 
     async function contractCall(func, args, value, types) {
-      const calledSet = await client.contractCall(contractAddress, 'sophia-address',contractAddress, func, {args, options: {amount:value}}).catch(async e => {
-        const decodedError = await client.contractDecodeData(types, e.returnValue).catch(e => console.error(e));
+      const calledSet = await client.contractCall(contractAddress,
+      'sophia-address',contractAddress, func,
+      {args, options: {amount:value}}).catch(async e => {
+        const decodedError = await client.contractDecodeData(types,
+        e.returnValue).catch(e => console.error(e));
       });
+
       return
     }
 
