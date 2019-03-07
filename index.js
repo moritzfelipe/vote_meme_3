@@ -58,7 +58,7 @@
       memesLength = getMemesLength.value;
 
       //Loop over every meme to get all their relevant information
-      for (let i = 1; i < memesLength; i++) {
+      for (let i = 1; i <= memesLength; i++) {
 
         //Make the call to the blockchain to get all relevant information on the meme
         const meme = await callStatic('getMeme',`(${i})`,'(address, string, string, int)');
