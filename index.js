@@ -88,7 +88,7 @@
           index = event.target.id;
 
       //Promise to execute execute call for the vote meme function with let values
-      await contractCall('voteMeme',`(${index})`,value,'(string)');
+      await contractCall('voteMeme',`(${index})`,value,'(int)');
 
       //Hide the loading animation after async calls return a value
       const foundIndex = memeArray.findIndex(meme => meme.index == event.target.id);
@@ -107,7 +107,7 @@
           url = ($('#regUrl').val());
 
       //Make the contract call to register the meme with the newly passed values
-      await contractCall('registerMeme',`("${url}","${name}")`,0,'(string)');
+      await contractCall('registerMeme',`("${url}","${name}")`,0,'(int)');
 
       //Add the new created memeobject to our memearray
       memeArray.push({
