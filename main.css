@@ -7,7 +7,6 @@ body{
   margin: 0 auto;
 }
 
-
 #title-div {
   margin: 1em;
   color: white;
@@ -43,13 +42,9 @@ img{
   margin-top: 1em;
 }
 
-#memeBody {
-  margin-top: 2em;
-}
-
 .card{
-  background-color: #F5F5F5;
-  margin-bottom: 1em;
+  margin-top: 3em;
   padding-top: 0.5em;
+  background-color: #F5F5F5;
   border: 0.5em solid #F5F5F5;
 }
