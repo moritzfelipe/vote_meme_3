@@ -70,10 +70,10 @@
           index: i,
           votes: meme.value[3].value,
         })
-      }
-
+          
       //Display updated memes
       renderMemes();
+      }
 
       //Hide loader animation
       $("#loader").hide();
